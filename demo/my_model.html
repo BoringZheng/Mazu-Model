@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Model Viewer</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "../lib/three.module.js",
+        "gaussian-splats-3d": "../lib/gaussian-splats-3d.module.js"
+      }
+    }
+  </script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      background-color: black;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <script type="module">
+    import * as THREE from 'three';
+    import * as GaussianSplats3D from 'gaussian-splats-3d';
+
+    const viewerOptions = {
+      initialCameraPosition: [0, 0, 200],
+      initialCameraLookAt: [0, 0, 0],
+      cameraUp: [0, 1, 0],
+      antialiased: true,
+      halfPrecisionCovariancesOnGPU: false,
+      splatRenderMode: GaussianSplats3D.SplatRenderMode.ThreeD,
+      sphericalHarmonicsDegree: 0
+    };
+
+    const splatBufferOptions = {
+      splatAlphaRemovalThreshold: 1,
+      splatScaleMultiplier: 0.01
+    };
+
+    const viewer = new GaussianSplats3D.Viewer(viewerOptions);
+
+    viewer.addSplatScene('assets/data/my_model.ply', splatBufferOptions).then(() => {
+      viewer.start();
+    });
+  </script>
+</body>
+</html>
